@@ -30,9 +30,10 @@ h1{font-family:'Playfair Display',serif;font-weight:500;font-size:88px;line-heig
 .chip{font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:999px;background:#EAE2D4;color:var(--ink)}
 .chip.p{background:#F1E8FA;color:var(--purple)}
 .band{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.about{display:grid;grid-template-columns:1fr 1.4fr;gap:72px;padding:104px 0}
+.about{display:grid;grid-template-columns:1fr 1.4fr;gap:72px;padding:104px 0;align-items:start}.about > div:first-child{position:sticky;top:112px}
 h2{font-family:'Playfair Display',serif;font-weight:500;font-size:56px;line-height:1.02;letter-spacing:-.015em;margin:14px 0 0}h2 em{color:var(--purple)}
 .bio p{font-size:18px;line-height:1.75;color:var(--body);margin:0 0 20px}
+.bio h3{font-family:'Playfair Display',serif;font-weight:500;font-size:28px;color:var(--ink);margin:40px 0 12px;padding-top:28px;border-top:1px solid var(--line)}
 .hl{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}.bio p+.hl{margin-top:32px}
 .hl li{display:grid;grid-template-columns:40px 1fr;gap:8px;padding:18px 0;border-bottom:1px solid var(--line);font-size:16.5px}
 .hl li i{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);line-height:1.1}
@@ -46,7 +47,7 @@ h2{font-family:'Playfair Display',serif;font-weight:500;font-size:56px;line-heig
 .cta h2{color:var(--paper);font-size:48px;margin:0}.cta h2 em{color:var(--goldb)}.cta p{color:#CBBFD9;font-size:16.5px;margin:12px 0 0}
 footer{padding:40px 0 56px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.7}
 .mcta{display:none}
-@media (max-width:1024px){.hero{grid-template-columns:340px 1fr;gap:48px}h1{font-size:64px}.about{grid-template-columns:1fr;gap:28px}.og{grid-template-columns:1fr}}
+@media (max-width:1024px){.about > div:first-child{position:static}.hero{grid-template-columns:340px 1fr;gap:48px}h1{font-size:64px}.about{grid-template-columns:1fr;gap:28px}.og{grid-template-columns:1fr}}
 @media (max-width:760px){
  body{padding-bottom:84px}
  .w{width:calc(100% - 32px)}nav{height:68px}.wm{font-size:16px}.wm img{height:36px}nav .btn{display:none}.back .lg{display:none}
@@ -74,8 +75,9 @@ footer{padding:40px 0 56px;border-top:1px solid var(--line);font-size:13px;color
 <div><span class="kick">About Tyree</span><h2>The <em>story.</em></h2></div>
 <div class="bio">
 <!-- ===== FULL BIO: paste Tyree's full bio here, one <p>...</p> per paragraph ===== -->
+<p>Tyree Decree is an entrepreneur, CEO, and business executive building a diversified portfolio across financial services, technology, education, and hospitality.</p><p>As Co-Founder of Vault of Modern Millionaire and Founder of GoVaultFunding.com, Tyree leads a growing ecosystem focused on financial advancement, access to capital, entrepreneurship, and modern wealth-building strategies. His vision is centered on creating businesses that not only generate value, but position people with the resources, education, and infrastructure to create opportunities of their own.</p><p>Beyond his financial ventures, Tyree is Co-Owner of Las Cuatro Milpas and serves as a key executive leader behind ChartTrendz, an emerging financial technology platform designed to modernize how traders interpret and interact with the markets.</p><p>His portfolio reflects a deliberate approach to business: acquire, build, innovate, scale, and create lasting value. Across each venture, Tyree maintains a focus on strategic expansion, strong operations, technology, and long-term brand equity.</p><p>At the center of his work is a larger vision—to build an enduring portfolio of companies, develop future leaders, expand economic opportunity, and establish a legacy defined by ownership, innovation, and generational impact.</p>
 <!-- ===== END FULL BIO ===== -->
-<ul class="hl"><li><i>i.</i><span>Founder of GoVault Funding</span></li><li><i>ii.</i><span>Helped hundreds of clients raise their credit scores</span></li></ul>
+<ul class="hl"><li><i>i.</i><span>Co-Founder of Vault of Modern Millionaire</span></li><li><i>ii.</i><span>Founder of GoVaultFunding.com</span></li><li><i>iii.</i><span>Helped hundreds of clients raise their credit scores</span></li><li><i>iv.</i><span>Co-Owner of Las Cuatro Milpas</span></li><li><i>v.</i><span>Executive leader behind ChartTrendz</span></li></ul>
 </div></section></div>
 <section class="w others"><span class="kick">Also in the room</span><h2>Meet the <em>other founders.</em></h2><div class="og"><a class="oc" href="gaige.html"><img src="team/gaige.webp" alt="Gaige Efird" loading="lazy" style="object-position:50% 55%"><div><b>Gaige Efird</b><span>Co-founder · Trading</span><u>Read bio →</u></div></a><a class="oc" href="ryan.html"><img src="team/ryan.webp" alt="Ryan Lewis" loading="lazy" style="object-position:22% 40%"><div><b>Ryan Lewis</b><span>Partner · Real estate & business</span><u>Read bio →</u></div></a></div></section>
 <section class="w cta"><div><h2>Learn from all three. <em>One membership.</em></h2><p>Every track, every founder — $97 a month, cancel anytime.</p></div><a class="btn g js-skool" href="https://www.skool.com/vault-of-modern-millionaire-2376/about">Join the Vault on Skool</a></section>
