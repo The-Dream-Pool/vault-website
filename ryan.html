@@ -47,6 +47,14 @@ h2{font-family:'Playfair Display',serif;font-weight:500;font-size:56px;line-heig
 .cta h2{color:var(--paper);font-size:48px;margin:0}.cta h2 em{color:var(--goldb)}.cta p{color:#CBBFD9;font-size:16.5px;margin:12px 0 0}
 footer{padding:40px 0 56px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);line-height:1.7}
 .mcta{display:none}
+.vid{padding:96px 0;display:grid;grid-template-columns:360px 1fr;gap:72px;align-items:center}
+.vid video{width:100%;aspect-ratio:9/16;border-radius:24px;background:#120a1c;display:block;box-shadow:0 40px 80px -50px rgba(30,11,48,.6)}
+.vid p{font-size:18px;line-height:1.7;color:var(--body);margin:18px 0 0;max-width:520px}
+@media (max-width:760px){.vid{grid-template-columns:1fr;gap:28px;padding:64px 0}.vid video{max-width:340px;margin:0 auto}}
+.hero:has(.vph){grid-template-columns:380px 1fr}
+.ph.vph{aspect-ratio:9/16;background:#000}.ph.vph video{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:1024px){.hero:has(.vph){grid-template-columns:300px 1fr}}
+@media (max-width:760px){.hero:has(.vph){grid-template-columns:1fr;gap:20px;padding-top:20px}.ph.vph{width:min(250px,64vw);margin:0 auto;border-radius:20px}.hero:has(.vph) h1{margin-top:8px}}
 @media (max-width:1024px){.about > div:first-child{position:static}.hero{grid-template-columns:340px 1fr;gap:48px}h1{font-size:64px}.about{grid-template-columns:1fr;gap:28px}.og{grid-template-columns:1fr}}
 @media (max-width:760px){
  body{padding-bottom:84px}
@@ -66,11 +74,12 @@ footer{padding:40px 0 56px;border-top:1px solid var(--line);font-size:13px;color
 <div style="display:flex;align-items:center;gap:24px"><a class="back" href="index.html#founders">← Back<span class="lg"> to founders</span></a><a class="btn js-skool" href="https://www.skool.com/vault-of-modern-millionaire-2376/about">Join on Skool</a></div></nav></div></header>
 <main>
 <section class="w hero">
-<div class="ph"><img src="team/ryan.webp" alt="Ryan Lewis" style="object-position:22% 40%"></div>
+<div class="ph vph"><video controls playsinline preload="metadata" poster="team/ryan-poster.jpg"><source src="team/ryan.mp4" type="video/mp4"></video></div>
 <div><span class="kick">The founders</span><h1>Ryan Lewis</h1><div class="role">Partner · Real estate & business</div>
 <p class="lead">Deep background in real estate and entrepreneurship. Mentors members and brings in well-known guest speakers.</p><div class="chips"><span class="chip p">Leads Real estate & business</span></div>
 <a class="btn g js-skool" href="https://www.skool.com/vault-of-modern-millionaire-2376/about">Learn from Ryan inside the Vault →</a></div>
 </section>
+
 <div class="band"><section class="w about">
 <div><span class="kick">About Ryan</span><h2>The <em>story.</em></h2></div>
 <div class="bio">
