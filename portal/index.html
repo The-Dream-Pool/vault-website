@@ -604,7 +604,7 @@ const firstName=()=>String(ME.full_name||ME.email.split('@')[0]).split(/[\s._-]+
 let LV='email',LEMAIL=(PEND&&PEND.email)||'';
 function setHead(h,sub){$('#lh').innerHTML=h;$('#lsub').textContent=sub}
 function loginView(v,msg){LV=v;const L=$('#lview');const a=loginMode==='admin';
-  if(v==='email'){setHead(a?'Admin <em class="gt" style="font-style:italic">access</em>':'Welcome to <em class="gt" style="font-style:italic">the Vault</em>',a?'Sign in with your admin email to see every student.':'Enter the email you used on your welcome form. We’ll email you a sign-in link.');
+  if(v==='email'){setHead(a?'Admin <em class="gt" style="font-style:italic">access</em>':'Welcome to <em class="gt" style="font-style:italic">the Vault</em>',a?'Sign in with your admin email to see every student.':'Enter your email and we’ll send you a sign-in link. New here? Same thing. Your portal takes under a minute to set up.');
     L.innerHTML=`<form id="fEmail" novalidate><div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com" value="${esc(LEMAIL)}"></div><div class="err" id="err" role="alert">${esc(msg||'')}</div><button class="btn gold" id="sib" type="submit">Email me a sign-in link</button></form>
       <div style="display:flex;justify-content:center;margin-top:12px"><button class="link" type="button" data-lv="password">Sign in with a password instead</button></div>`}
   else if(v==='sent'){setHead('Check your <em class="gt" style="font-style:italic">email</em>',`We sent a sign-in link to ${LEMAIL}. Tap it on this device to enter the Vault.`);
@@ -617,8 +617,12 @@ function loginView(v,msg){LV=v;const L=$('#lview');const a=loginMode==='admin';
   else if(v==='setpw'){setHead('Set your <em class="gt" style="font-style:italic">password</em>','Next time you can sign in with your email and this password.');
     L.innerHTML=`<form id="fSet" novalidate><div class="field"><label for="np">New password</label><input id="np" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><div class="field"><label for="np2">Confirm password</label><input id="np2" type="password" autocomplete="new-password" placeholder="Type it again"></div><div class="err" id="err" role="alert">${esc(msg||'')}</div><button class="btn gold" id="sib" type="submit">Save password</button></form>
       <div style="display:flex;justify-content:center;margin-top:12px"><button class="link" type="button" id="skipPw" style="color:var(--mute)">Skip for now</button></div>`}
-  else if(v==='pick'){setHead('What do you want to <em class="gt" style="font-style:italic">learn?</em>','Pick one or all four. Your portal is built around what you choose.');
-    L.innerHTML=`<form id="fPick" novalidate><div class="stack" style="gap:10px">${ORDER.map(k=>{const t=TRACKS[k];return `<label class="opt pick"><input type="checkbox" value="${k}" ${(ME&&ME.tracks||[]).includes(k)?'checked':''}><span class="ol">${check}</span><span class="rt"><b>${t.name}</b><span>with ${t.prof}</span></span></label>`}).join('')}</div><div class="err" id="err" role="alert" style="margin-top:12px">${esc(msg||'')}</div><button class="btn gold" id="sib" type="submit">Build my portal</button></form>`}
+  else if(v==='pick'){const first=!(ME&&ME.tracks&&ME.tracks.length);
+    setHead(first?'Welcome to <em class="gt" style="font-style:italic">the Vault</em>':'Your <em class="gt" style="font-style:italic">tracks</em>',first?'Three quick questions and your portal is ready.':'Pick one or all four. Your portal is built around what you choose.');
+    L.innerHTML=`<form id="fPick" novalidate>${first?`<div class="field"><label for="fn">What’s your full name?</label><input id="fn" autocomplete="name" placeholder="First and last name" value="${esc(ME&&ME.full_name||'')}"></div>
+      <div class="field"><label for="ph">Best phone number to reach you? <span style="color:var(--dim)">(optional)</span></label><input id="ph" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 555-5555" value="${esc(ME&&ME.phone||'')}"></div>
+      <div class="lbl" style="font-weight:500;margin:4px 0 10px">What are you interested in learning? <span style="color:var(--dim)">Choose as many as you like.</span></div>`:''}
+      <div class="stack" style="gap:10px">${ORDER.map(k=>{const t=TRACKS[k];return `<label class="opt pick"><input type="checkbox" value="${k}" ${(ME&&ME.tracks||[]).includes(k)?'checked':''}><span class="ol">${check}</span><span class="rt"><b>${t.name}</b><span>with ${t.prof}</span></span></label>`}).join('')}</div><div class="err" id="err" role="alert" style="margin-top:12px">${esc(msg||'')}</div><button class="btn gold" id="sib" type="submit">${first?'Build my portal':'Save my tracks'}</button></form>`}
   $('#adminRow').classList.toggle('hide',!(v==='email'||v==='password'));
   $('#adminLink').textContent=a?'Back to student login':'Admin login';
   const f=L.querySelector('input:not([type=checkbox])');if(f&&!('ontouchstart' in window))setTimeout(()=>f.focus(),50);
@@ -641,8 +645,10 @@ document.addEventListener('submit',async e=>{
   if(f.id==='fSet'){const a=$('#np').value,b2=$('#np2').value;if(a.length<8)return err('Use at least 8 characters.');if(a!==b2)return err('Passwords don’t match.');const b=$('#sib');busy(b,true);
     const {error}=await sb.auth.updateUser({password:a});if(error){busy(b,false);return err(error.message)}
     await sb.from('students').update({has_password:true}).eq('id',ME.id);ME.has_password=true;busy(b,false);toast('Password saved');enter()}
-  if(f.id==='fPick'){const t=[...f.querySelectorAll('input:checked')].map(i=>i.value);if(!t.length)return err('Pick at least one track.');const b=$('#sib');busy(b,true);
-    const {error}=await sb.from('students').update({tracks:t}).eq('id',ME.id);busy(b,false);if(error)return err('Couldn’t save. Try again.');ME.tracks=t;P.track=t[0];saveP();afterLogin()}
+  if(f.id==='fPick'){const t=[...f.querySelectorAll('input:checked')].map(i=>i.value);const fn=$('#fn'),ph=$('#ph');
+    if(fn&&!fn.value.trim())return err('Enter your name.');if(!t.length)return err('Pick at least one track.');const b=$('#sib');busy(b,true);
+    const upd={tracks:t};if(fn)upd.full_name=fn.value.trim();if(ph&&ph.value.trim())upd.phone=ph.value.trim();
+    const {error}=await sb.from('students').update(upd).eq('id',ME.id);busy(b,false);if(error)return err('Couldn’t save. Try again.');Object.assign(ME,upd);P.track=t[0];saveP();afterLogin()}
 });
 
 /* ===== SESSION ===== */
@@ -675,8 +681,8 @@ async function onSession(session){
 }
 function afterLogin(){
   if(loginMode==='admin'||(IS_ADMIN&&VIEW==='admin')){if(IS_ADMIN){VIEW='admin';return enter()}toast('That email isn’t an admin. Opening your student portal.');loginMode='student'}
-  if(!ME.has_password&&!sessionStorage.getItem('pwSkip'))return (show('login'),loginView('setpw'));
   if(!ME.tracks||!ME.tracks.length)return (show('login'),loginView('pick'));
+  if(!ME.has_password&&!sessionStorage.getItem('pwSkip'))return (show('login'),loginView('setpw'));
   enter();
 }
 function enter(){
