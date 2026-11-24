@@ -95,6 +95,13 @@ h2 em{background:var(--grad-ink);-webkit-background-clip:text;background-clip:te
 .cta{background:radial-gradient(600px 360px at 100% 0%,rgba(142,78,198,.45),transparent 65%),linear-gradient(160deg,#2A1240,#1E0B30);box-shadow:0 40px 80px -50px rgba(30,11,48,.8),inset 0 0 0 1px rgba(227,180,71,.22)}
 .oc{box-shadow:0 20px 40px -32px rgba(30,11,48,.5)}
 .chip.p{background:linear-gradient(135deg,#F1E8FA,#EADCF7)}
+
+/* italic gradient descender fix */
+h1 em,h2 em,.cta h2 em,.card h4 em{padding:.04em .14em .16em .08em!important;margin:0 -.1em 0 -.08em!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* solid accent: no clipped descenders */
+h1 em,h2 em,.card h4 em{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#5B2398!important;-webkit-text-fill-color:#5B2398!important;padding:0!important;margin:0!important}
+.dark h2 em,.trk h2 em,#membership h2 em,.cta h2 em{color:#E3B447!important;-webkit-text-fill-color:#E3B447!important}
 </style></head><body>
 <header><div class="w"><nav><a class="wm" href="index.html"><img src="proof/logo.webp" alt="">Vault of Modern Millionaire</a>
 <div style="display:flex;align-items:center;gap:24px"><a class="back" href="index.html#founders">← Back<span class="lg"> to founders</span></a><a class="btn js-skool" href="https://www.skool.com/vault-of-modern-millionaire-2376/about">Join on Skool</a></div></nav></div></header>

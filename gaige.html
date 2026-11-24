@@ -84,6 +84,13 @@ h2 em{background:var(--grad-ink);-webkit-background-clip:text;background-clip:te
 .chip.p{background:linear-gradient(135deg,#F1E8FA,#EADCF7)}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}.gal figure{margin:0;aspect-ratio:3/4;border-radius:22px;overflow:hidden;background:#120a1c;box-shadow:0 40px 70px -45px rgba(30,11,48,.75),0 0 0 1px rgba(227,180,71,.22)}.gal img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block;transition:transform .6s ease}.gal figure:hover img{transform:scale(1.03)}@media (max-width:760px){.gal{gap:10px;margin-top:28px}.gal figure{border-radius:16px}}
 .sideph{margin-top:36px;max-width:360px}@media (max-width:1024px){.sideph{display:none}}.gwide{margin:40px 0 0;aspect-ratio:16/10;border-radius:22px;overflow:hidden;background:#120a1c;box-shadow:0 40px 70px -45px rgba(30,11,48,.75),0 0 0 1px rgba(227,180,71,.22)}.gwide img{width:100%;height:100%;object-fit:cover;object-position:50% 52%;display:block}@media (max-width:1024px){.gwide{aspect-ratio:3/4;max-width:420px}}@media (max-width:760px){.gwide{margin-top:28px;border-radius:16px}}
+
+/* italic gradient descender fix */
+h1 em,h2 em,.cta h2 em,.card h4 em{padding:.04em .14em .16em .08em!important;margin:0 -.1em 0 -.08em!important;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* solid accent: no clipped descenders */
+h1 em,h2 em,.card h4 em{background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#5B2398!important;-webkit-text-fill-color:#5B2398!important;padding:0!important;margin:0!important}
+.dark h2 em,.trk h2 em,#membership h2 em,.cta h2 em{color:#E3B447!important;-webkit-text-fill-color:#E3B447!important}
 </style></head><body>
 <header><div class="w"><nav><a class="wm" href="index.html"><img src="proof/logo.webp" alt="">Vault of Modern Millionaire</a>
 <div style="display:flex;align-items:center;gap:24px"><a class="back" href="index.html#founders">← Back<span class="lg"> to founders</span></a><a class="btn js-skool" href="https://www.skool.com/vault-of-modern-millionaire-2376/about">Join on Skool</a></div></nav></div></header>
