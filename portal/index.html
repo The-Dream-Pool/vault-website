@@ -345,109 +345,50 @@ label.opt.pick:has(input:focus-visible){outline:2px solid var(--gold);outline-of
 <div class="toast" id="toast" role="status"></div>
 <script src="supabase.js"></script>
 <script>
-const PHASES=[['Getting started',0,3],['Market foundations',3,8],['Risk & mindset',8,11],['Strategy',11,15],['Execution',15,18],['Get funded',18,20]];
+const PHASES=[['Your trading setup',0,2],['Foundations',2,5],['Charts & tools',5,8],['Finding long-term stocks',8,10],['Review & analysis',10,13],['Risk & patterns',13,15],['Graduate',15,16]];
 const STEPS=[
-["Welcome to the Trader's Vault","Watch the welcome video and see how this track works."],
-["Join the community & turn on alerts","Introduce yourself in Skool and turn on notifications so you never miss a live session."],
-["Set up your charts","Create your TradingView account and load the Vault chart layout."],
-["How futures & options work","Contracts, leverage, tick values, and why we focus on the Nasdaq-100."],
-["Reading candlesticks","What each candle tells you about buyers and sellers."],
-["Market structure","Spot trends using higher highs, higher lows, and the reverse."],
-["Key levels","Mark support, resistance, and the levels that matter each day."],
-["Sessions & timing","When the market moves, and when to sit on your hands."],
-["Position sizing","How much to risk per trade based on your account size."],
-["Stops & risk-to-reward","Where to place stops, and only taking trades worth the risk."],
-["Trading psychology","Discipline, patience, and handling losing days."],
-["Indicators that matter","VWAP and moving averages, used without clutter."],
-["The NQ playbook","The setups we trade on the Nasdaq-100 and when each one applies."],
-["Build your trading plan","Write your rules: setups, entries, exits, and daily limits."],
-["Backtest your strategy","Test your plan on past data before risking real money."],
-["Paper trade","Place 20 simulated trades that follow your plan."],
-["Journal & review","Log every trade and review your results each week."],
-["Go live with small size","Trade one micro contract and focus on clean execution."],
-["Funded account prep","Rules and strategy for passing a prop firm evaluation."],
-["Graduation review","Book your final review with Gaige and plan your next level."]];
+["Set your trading goal","Post your goal in the community: what you want from trading and how much time you can give it."],
+["Create your TradingView account","Sign up for a free TradingView account. You'll use it in almost every lesson."],
+["Understanding the Basics of Stock Trading","What a stock is, how the market works and how trades actually get filled."],
+["Importance of Investing for the Long Term","Why time in the market builds wealth, and how compounding works for you."],
+["Trading Vocabulary and Literacy","The terms you'll hear every day, so nothing in the community goes over your head."],
+["How to Read Candlesticks","Must watch. What every candle tells you about buyers and sellers."],
+["Master Trading Timeframes","How to use the daily, hourly and minute charts together."],
+["How to Navigate TradingView","Very important. Set up your charts and find every tool you'll use."],
+["How to Find Long-Term Stocks, Pt. 1","How to spot quality companies worth holding for years."],
+["How to Find Long-Term Stocks, Pt. 2","Narrow your list and decide when to buy."],
+["Trade Journaling and Review Framework","Log every trade and review it so you keep improving."],
+["Understanding Fundamental Analysis","Earnings, revenue and valuation: reading a company's numbers."],
+["Understanding Technical Analysis","Trends, levels and indicators: reading price action on the chart."],
+["Risk Management","Very important. How much to risk, where to put your stop and how to protect your account."],
+["Introduction to Market Patterns","Very important. The chart patterns that show up again and again, and how to trade them."],
+["Graduation review","Post your journal and trading plan in the community, and book your review with Gaige."]];
 const QUIZ={
-3:[["What does one futures contract represent?",["Ownership of shares in a company","An agreement to buy or sell an asset at a set price on a future date","A loan from your broker","A fixed-interest bond"],1,"A futures contract is a standardized agreement to buy or sell an asset at an agreed price on a future date."],
-["NQ moves one full point. What is that worth on one NQ contract?",["$2","$5","$20","$50"],2,"NQ is worth $20 per point. The micro (MNQ) is $2 per point."],
-["What is the smallest price move (one tick) on NQ and MNQ?",["0.01 points","0.10 points","0.25 points","1 point"],2,"Both NQ and MNQ move in 0.25-point ticks: $5 per tick on NQ and $0.50 on MNQ."],
-["What does buying a call option give you?",["The obligation to sell at the strike","The right, but not the obligation, to buy at the strike","A guaranteed profit if price rises","Ownership of the underlying shares"],1,"A call gives the buyer the right, not the obligation, to buy at the strike price before expiration."],
-["Why can futures gains and losses add up so fast?",["Leverage: a small margin deposit controls a large position","Futures have no price limits at all","Brokers double your losses","Futures only trade once a day"],0,"Margin is a fraction of the contract's value, so every point moves your account much more than the cash you put up."]],
-4:[["What does the body of a candle show?",["The highest and lowest price","The distance between the open and the close","Total volume traded","The average price"],1,"The body runs from the open to the close. The wicks show the high and the low."],
+5:[["What does the body of a candle show?",["The highest and lowest price","The distance between the open and the close","Total volume traded","The average price"],1,"The body runs from the open to the close. The wicks show the high and the low."],
 ["A green (bullish) candle means:",["The close was above the open","The close was below the open","Volume was high","Price didn't move"],0,"Bullish candles close higher than they opened."],
 ["A long upper wick usually tells you:",["Buyers held price at the highs","Price pushed up but sellers drove it back down","The market was closed","Volume dried up"],1,"A long upper wick shows price was rejected from higher levels."],
 ["A doji candle signals:",["A strong trend","Indecision: the open and close are nearly equal","A guaranteed reversal","A gap"],1,"Dojis show balance between buyers and sellers. Wait for confirmation before acting on one."],
 ["A bullish engulfing pattern is:",["A small green candle inside a red one","A green body that fully covers the previous red body","Two red candles in a row","A candle with no wicks"],1,"The bullish body engulfs the prior bearish body, showing buyers took control."]],
-5:[["An uptrend is defined by:",["Lower highs and lower lows","Higher highs and higher lows","Equal highs and lows","Big green candles only"],1,"Uptrends make higher highs and higher lows."],
-["A downtrend is defined by:",["Lower highs and lower lows","Higher highs and higher lows","A single red candle","Rising volume"],0,"Downtrends make lower highs and lower lows."],
-["In an uptrend, which is an early warning that the trend may be weakening?",["A new higher high","Price breaking below the most recent higher low","A green candle","Volume rising on up moves"],1,"Losing the last higher low breaks the uptrend's structure."],
-["A range (consolidation) is when price:",["Trends strongly in one direction","Bounces between a clear high and low without trending","Gaps every day","Only moves at the open"],1,"In a range, buyers and sellers are balanced between two boundaries."],
-["Why trade in the direction of the higher-timeframe trend?",["It guarantees every trade wins","It generally puts the odds on your side","It removes the need for a stop","It lets you use more size"],1,"Trading with the dominant trend tends to give better follow-through. Nothing guarantees a win."]],
-6:[["What is support?",["A price area where buying has repeatedly stopped declines","The highest price of the day","A broker's help desk","Any round number"],0,"Support is where demand has stepped in before and stopped price from falling."],
-["When resistance breaks cleanly, it often:",["Disappears forever","Becomes support on a retest","Becomes a gap","Turns into a doji"],1,"This is called role reversal: old resistance often acts as new support."],
-["Which daily levels do many intraday traders mark?",["Previous day's high and low","Yesterday's volume","The 1-minute open","Random round numbers only"],0,"The prior day's high and low are widely watched reference levels."],
-["How should you treat key levels?",["As exact prices to the tick","As zones or areas","As guaranteed reversal points","As irrelevant on NQ"],1,"Price often overshoots or reacts slightly early, so think in zones."],
-["Which timeframe's levels usually carry the most weight?",["1-minute","5-minute","Higher timeframes like daily and weekly","Tick charts"],2,"Higher-timeframe levels reflect more participants and more volume."]],
-7:[["What are regular US stock market hours (Eastern Time)?",["8:00 AM – 3:00 PM","9:30 AM – 4:00 PM","10:00 AM – 5:00 PM","24 hours"],1,"The cash session runs 9:30 AM to 4:00 PM ET."],
-["When do NQ futures trade?",["Only 9:30 AM – 4:00 PM ET","Nearly 24 hours, Sunday evening to Friday afternoon, with a daily break","Weekends only","Once a week"],1,"CME equity futures trade nearly around the clock on weekdays, with a short daily maintenance break."],
-["When is NQ usually most active?",["Around the 9:30 AM ET open","At midnight ET","During the daily break","Saturday morning"],0,"Volume and volatility usually spike around the cash open."],
-["Why be careful around major news like CPI or FOMC?",["Price can spike sharply both ways and fills can slip","The market closes","Nothing moves on news days","Stops are disabled"],0,"News releases can cause fast, violent moves and slippage."],
-["How does the midday lunch period (roughly 12:00 – 1:30 PM ET) usually trade?",["Highest volume of the day","Lower volume, choppier price action","Market is closed","Guaranteed trends"],1,"Lunch is often slow and choppy, which many traders avoid."]],
-8:[["What is a common guideline for risk per trade?",["1–2% of your account","10% of your account","25% of your account","Whatever feels right"],0,"Keeping risk around 1–2% means a losing streak won't wipe you out."],
-["$10,000 account, risking 1% per trade. What is your max risk?",["$10","$100","$1,000","$50"],1,"1% of $10,000 is $100."],
-["Your stop is 10 points away on MNQ ($2 per point). What do you risk per contract?",["$2","$10","$20","$200"],2,"10 points × $2 = $20 per MNQ contract."],
-["You can risk $100 and each MNQ contract risks $20. How many contracts?",["1","2","5","10"],2,"$100 ÷ $20 = 5 contracts."],
-["Why size by risk instead of by confidence?",["It keeps every loss controlled and consistent","It makes every trade bigger","It removes losing trades","Brokers require it"],0,"Consistent risk keeps one trade from damaging your account."]],
-9:[["What is a stop loss?",["A pre-set exit that caps your loss if price moves against you","A profit target","A type of indicator","A trading break"],0,"A stop defines your maximum loss before you enter."],
-["You risk 10 points to make 30 points. What is the risk-to-reward?",["3:1","1:3","1:1","1:30"],1,"Risking 1 to make 3 is 1:3."],
-["With a 1:2 risk-to-reward, roughly what win rate breaks even?",["About 33%","About 50%","About 66%","About 90%"],0,"Win 1 of 3: +2R − 2 × 1R = 0. So about 33% breaks even, before costs."],
-["Where should a stop usually go?",["A random fixed distance","Beyond the level that would prove your idea wrong","Right at your entry","As far away as possible"],1,"Place it where the trade idea is invalid, like just below support for a long."],
-["What should you never do with your stop once you're in a trade?",["Leave it alone","Move it to break-even per your plan","Widen it to avoid getting stopped out","Trail it per your plan"],2,"Widening a stop increases your risk and breaks your plan."]],
-10:[["What is revenge trading?",["Forcing trades to win back a loss","Trading the news","Copying another trader","Taking a planned setup"],0,"Revenge trading is emotional and usually makes losses bigger."],
-["You hit your daily loss limit. What's the best move?",["Double your size to win it back","Stop trading for the day","Switch to a new strategy","Trade a different market"],1,"The limit exists to protect you on bad days. Respect it."],
-["FOMO usually causes traders to:",["Wait patiently","Chase entries late with poor risk","Use smaller size","Skip trades"],1,"Fear of missing out leads to late, low-quality entries."],
-["How does a written plan help your psychology?",["It decides in advance, so emotions don't decide in the moment","It guarantees wins","It removes risk","It makes you trade more"],0,"Pre-made rules take emotion out of decisions."],
-["You lost a trade but followed your plan exactly. That was:",["A bad trade","A good trade: losses are part of any edge","A reason to quit","A reason to change everything"],1,"Judge execution, not single outcomes."]],
-11:[["What does VWAP stand for?",["Volume Weighted Average Price","Very Wide Average Point","Value Weighted Asset Price","Volatility Weighted Average Price"],0,"VWAP is the average price weighted by volume."],
-["When does VWAP reset?",["Every minute","Each trading session","Once a year","Never"],1,"Standard VWAP resets at the start of each session."],
-["Price holding above VWAP intraday generally suggests:",["Buyers are in control","Sellers are in control","The market is closed","Nothing"],0,"Above VWAP leans bullish, below leans bearish."],
-["What is a simple moving average?",["The average closing price over a set number of periods","The day's high","A news indicator","A volume bar"],0,"An SMA averages closes over a chosen lookback, like 20 periods."],
-["What's the main problem with stacking too many indicators?",["Conflicting signals and analysis paralysis","Charts load slowly","Brokers charge more","Nothing"],0,"More indicators often add noise, not clarity."]],
-12:[["What does NQ track?",["The Dow Jones","The Nasdaq-100 index","Gold","The S&P 500"],1,"NQ is the E-mini Nasdaq-100 futures contract."],
-["Which kinds of companies carry the most weight in the Nasdaq-100?",["Large technology companies","Small banks","Oil producers only","Utilities"],0,"Mega-cap tech names drive most of the index."],
-["How does MNQ compare to NQ?",["Same size","One-tenth the size","Ten times bigger","Half the size"],1,"MNQ is the micro contract at 1/10 the size: $2 per point vs $20."],
-["What is the opening range?",["The high and low set in the first part of the session","Yesterday's close","The overnight volume","The daily VWAP"],0,"Many traders watch the first 15–30 minutes' high and low for breakouts and failures."],
-["Before taking any setup, you should:",["Confirm it matches the conditions in your plan","Ask the chat what to do","Trade it no matter what","Double your size"],0,"Only take setups your plan defines, with your planned risk."]],
-13:[["Which of these belongs in a trading plan?",["Setups, entries, exits and risk limits","Only your profit goal","Your favorite stocks","Nothing written down"],0,"A plan spells out what you trade, how you enter and exit, and how much you risk."],
-["What is a daily max loss?",["The amount at which you stop trading for the day","Your biggest win","Your account balance","A broker fee"],0,"It's your hard stop for the day."],
-["Why write your rules down?",["So you can follow and review them objectively","It's legally required","To share on social media","It's not needed"],0,"Written rules can be measured and improved."],
-["When should you change your plan?",["Mid-trade when you feel nervous","After reviewing enough trades and data","Every morning","After one loss"],1,"Change rules based on evidence, not emotion."],
-["Which does NOT belong in a trading plan?",["A daily loss limit","Entry criteria","A guaranteed daily profit","Position-size rules"],2,"No plan can guarantee profit. Plans control process and risk."]],
-14:[["What is backtesting?",["Testing your strategy's rules on historical data","Trading backwards","Reviewing your bank statements","Watching others trade"],0,"Backtesting shows how your rules would have performed in the past."],
-["Why do you need a large sample of trades?",["Small samples can just be luck","It looks better","Brokers require it","You don't"],0,"More trades make your stats more reliable."],
-["What's the biggest backtesting trap?",["Overfitting rules to past data","Using a chart","Taking notes","Testing too many trades"],0,"Rules tuned too tightly to the past often fail live."],
-["Which metrics matter most?",["Win rate, average win and loss, max drawdown, expectancy","Number of indicators","Chart colors","Time of day you tested"],0,"These tell you whether your edge is real and survivable."],
-["Win rate 50%, average win $200, average loss $100. Expectancy per trade?",["$0","+$50","+$100","−$50"],1,"0.5 × $200 − 0.5 × $100 = +$50 per trade."]],
-15:[["What is paper trading?",["Simulated trading with no real money","Trading paper companies","Printing charts","Trading bonds"],0,"You practice in a simulator before risking money."],
-["What's the main goal of paper trading?",["Practicing your plan consistently","Making fake money fast","Trying random strategies","Taking as many trades as possible"],0,"It's for building execution habits."],
-["What's a key limitation of paper trading?",["No real emotional pressure, and fills can be better than live","It costs a lot","It's illegal","Charts are different"],0,"Real money adds emotion and slippage the sim doesn't show."],
-["How should you treat your sim account?",["Exactly like real: same size and rules","Max size, it's free","Ignore your stops","Only trade news"],0,"Train the habits you'll use live."],
-["When are you ready to go live?",["After following your plan consistently over a meaningful sample","After one good day","When you feel lucky","Right away"],0,"Consistency over many trades comes first."]],
-16:[["What should every journal entry include?",["Entry, exit, size, setup, reason, result and emotions","Just the profit","Only winners","Nothing, memory is enough"],0,"Detail makes reviews useful."],
+10:[["What should every journal entry include?",["Entry, exit, size, setup, reason, result and emotions","Just the profit","Only winners","Nothing, memory is enough"],0,"Detail makes reviews useful."],
 ["Why save a screenshot of each trade?",["To review exactly what the chart looked like","For social media","It's required","No reason"],0,"Screenshots show what you saw when you decided."],
 ["What is the weekly review for?",["Finding patterns in your wins and mistakes","Deleting losses","Counting trades only","Nothing"],0,"Patterns show what to keep and what to cut."],
 ["Your journal shows most losses come after 11 AM. What should you consider?",["Limiting trading to your best hours","Trading more after 11","Ignoring it","Doubling size after 11"],0,"Use your data to trade your best conditions."],
 ["When is the best time to journal?",["Right after the trade or session, while it's fresh","Once a month","Never","Only after wins"],0,"Details fade fast."]],
-17:[["Why start live with one micro contract?",["Small risk while you adjust to real-money emotions","Micros always win","It's required","No reason"],0,"Keep risk small while emotions are new."],
-["What is one point on MNQ worth?",["$0.50","$2","$5","$20"],1,"MNQ is $2 per point ($0.50 per tick)."],
-["What should you focus on in your first live weeks?",["Clean execution of your plan","Maximum profit","Trading every setup","Trying new strategies"],0,"Process first, profits follow."],
-["When should you increase size?",["Gradually, after consistent execution and results","After one big win","Right away","When you're down"],0,"Scale slowly based on proven consistency."],
-["What is slippage?",["The difference between your expected price and your actual fill","A broker fee","A type of candle","A trend"],0,"Fast markets can fill you at a worse price than expected."]],
-18:[["What is a prop firm evaluation?",["Trading by the firm's rules to hit a profit target without breaking drawdown limits","A free course","A broker account","A tax form"],0,"Pass the rules to earn a funded account."],
-["What is a trailing drawdown?",["A max-loss limit that moves up as your account makes new highs","A fixed fee","A profit target","A type of stop order"],0,"The loss limit follows your peak balance, so give-backs count against you."],
-["Why do most traders fail evaluations?",["Breaking risk rules or overtrading to hit the target fast","The rules are secret","Charts are wrong","Too much patience"],0,"Rushing the target leads to rule breaks."],
-["At many firms, breaking the daily loss limit:",["Can fail the evaluation","Has no effect","Earns a bonus","Doubles your target"],0,"Read each firm's rules carefully. Breaches often end the attempt."],
-["What's the best approach to an evaluation?",["Trade your normal plan with small size and let the target come","Max size on day one","Trade every move","Ignore the rules"],0,"Pass by trading the same disciplined plan you trade every day."]]
+12:[["What does VWAP stand for?",["Volume Weighted Average Price","Very Wide Average Point","Value Weighted Asset Price","Volatility Weighted Average Price"],0,"VWAP is the average price weighted by volume."],
+["When does VWAP reset?",["Every minute","Each trading session","Once a year","Never"],1,"Standard VWAP resets at the start of each session."],
+["Price holding above VWAP intraday generally suggests:",["Buyers are in control","Sellers are in control","The market is closed","Nothing"],0,"Above VWAP leans bullish, below leans bearish."],
+["What is a simple moving average?",["The average closing price over a set number of periods","The day's high","A news indicator","A volume bar"],0,"An SMA averages closes over a chosen lookback, like 20 periods."],
+["What's the main problem with stacking too many indicators?",["Conflicting signals and analysis paralysis","Charts load slowly","Brokers charge more","Nothing"],0,"More indicators often add noise, not clarity."]],
+13:[["What is a common guideline for risk per trade?",["1–2% of your account","10% of your account","25% of your account","Whatever feels right"],0,"Keeping risk around 1–2% means a losing streak won't wipe you out."],
+["$10,000 account, risking 1% per trade. What is your max risk?",["$10","$100","$1,000","$50"],1,"1% of $10,000 is $100."],
+["Your stop is 10 points away on MNQ ($2 per point). What do you risk per contract?",["$2","$10","$20","$200"],2,"10 points × $2 = $20 per MNQ contract."],
+["You can risk $100 and each MNQ contract risks $20. How many contracts?",["1","2","5","10"],2,"$100 ÷ $20 = 5 contracts."],
+["Why size by risk instead of by confidence?",["It keeps every loss controlled and consistent","It makes every trade bigger","It removes losing trades","Brokers require it"],0,"Consistent risk keeps one trade from damaging your account."]],
+14:[["An uptrend is defined by:",["Lower highs and lower lows","Higher highs and higher lows","Equal highs and lows","Big green candles only"],1,"Uptrends make higher highs and higher lows."],
+["A downtrend is defined by:",["Lower highs and lower lows","Higher highs and higher lows","A single red candle","Rising volume"],0,"Downtrends make lower highs and lower lows."],
+["In an uptrend, which is an early warning that the trend may be weakening?",["A new higher high","Price breaking below the most recent higher low","A green candle","Volume rising on up moves"],1,"Losing the last higher low breaks the uptrend's structure."],
+["A range (consolidation) is when price:",["Trends strongly in one direction","Bounces between a clear high and low without trending","Gaps every day","Only moves at the open"],1,"In a range, buyers and sellers are balanced between two boundaries."],
+["Why trade in the direction of the higher-timeframe trend?",["It guarantees every trade wins","It generally puts the odds on your side","It removes the need for a stop","It lets you use more size"],1,"Trading with the dominant trend tends to give better follow-through. Nothing guarantees a win."]]
 };
 
 /* ===== TRACK CONTENT ===== */
@@ -541,6 +482,23 @@ const UPSELL={
  realestate:{chip:'1-on-1 with Myla',h:'Buy with <em class="gt">a pro beside you.</em>',p:'1-on-1 sessions with Myla are coming soon.',perks:['Your buying plan, built with Myla','A walk-through of your first offer','Licensing guidance if you want to become an agent'],proof:null}
 };
 
+/* ===== SHARED: GETTING STARTED WITH SKOOL (every track) ===== */
+const OB=[
+["Welcome to the Vault","Watch the welcome video and see how your portal and the community work together."],
+["Complete your Skool profile","Add a photo, a short bio and your location so the community knows who you are."],
+["Introduce yourself","Post in the Community tab: who you are, where you're from and what you want to learn."],
+["Turn on notifications & get the app","Download the Skool app and turn on notifications so you never miss a post or live session."],
+["Find the Classroom & Calendar","Lessons live in the Classroom tab. Live sessions and calls are on the Calendar."]];
+const OBN=OB.length;
+Object.values(TRACKS).forEach(t=>{
+  t.own=t.steps.length;
+  t.steps=OB.concat(t.steps);
+  t.phases=[['Getting started with Skool',0,OBN]].concat(t.phases.map(p=>[p[0],p[1]+OBN,p[2]+OBN]));
+  if(t.quiz){const q={};Object.keys(t.quiz).forEach(k=>q[+k+OBN]=t.quiz[k]);t.quiz=q}
+});
+/* display index -> stored [track,step]; shared steps are stored once under 'skool' */
+const SK=(tk,i)=>i<OBN?['skool',i]:[tk,i-OBN];
+
 /* ===== SUPABASE ===== */
 const SB_URL='https://yabkvzavwmhwwmvqfncp.supabase.co';
 const SB_KEY='sb_publishable_prXnWFkWpH5a54HvYdqSGg_fF8y_IR7';
@@ -601,8 +559,9 @@ let SCORES={};    // {track:{step:score}}
 let IS_ADMIN=false,VIEW='student',loginMode='student';
 let Q=null;
 const T=()=>TRACKS[P.track]||TRACKS[ME.tracks[0]];
-const isDone=(tk,i)=>!!(DONE[tk]&&DONE[tk].has(i));
-const doneCount=tk=>DONE[tk]?DONE[tk].size:0;
+const isDone=(tk,i)=>{const [k,j]=SK(tk,i);return !!(DONE[k]&&DONE[k].has(j))};
+const doneCount=tk=>TRACKS[tk].steps.reduce((n,_,i)=>n+(isDone(tk,i)?1:0),0);
+const scoreOf=(tk,i)=>{const [k,j]=SK(tk,i);return SCORES[k]&&SCORES[k][j]};
 const cur=tk=>{const n=TRACKS[tk].steps.length;for(let i=0;i<n;i++)if(!isDone(tk,i))return i;return -1};
 const phaseIx=(tk,i)=>TRACKS[tk].phases.findIndex(p=>i>=p[1]&&i<p[2]);
 const firstName=()=>String(ME.full_name||ME.email.split('@')[0]).split(/[\s._-]+/)[0].replace(/^./,c=>c.toUpperCase());
@@ -703,9 +662,11 @@ function show(w){$('#login').classList.toggle('hide',w!=='login');$('#app').clas
 sb.auth.onAuthStateChange((ev,session)=>{if(ev==='INITIAL_SESSION'||ev==='SIGNED_IN'||ev==='SIGNED_OUT'){if(ev==='SIGNED_IN'&&ME&&session&&ME.id===session.user.id)return;setTimeout(()=>onSession(session),0)}});
 
 /* ===== PROGRESS WRITES ===== */
-async function setDone(tk,i,on,score){
+async function setDone(dtk,di,on,score){
+  const [tk,i]=SK(dtk,di);
   DONE[tk]=DONE[tk]||new Set();
   if(on)DONE[tk].add(i);else DONE[tk].delete(i);
+  if(score!=null)(SCORES[tk]=SCORES[tk]||{})[i]=score;
   const now=new Date().toISOString();
   let r;
   if(on||score!=null){const row={user_id:ME.id,track:tk,step:i,updated_at:now};if(score!=null)row.quiz_score=score;
@@ -758,7 +719,7 @@ function road(){
   const t=T(),tk=t.key,N=t.steps.length,c=cur(tk);let k=0;
   const groups=t.phases.map(([title,a,b],pi)=>{
     const dn=t.steps.slice(a,b).filter((_,j)=>isDone(tk,a+j)).length;let rows='';
-    for(let i=a;i<b;i++){const d=isDone(tk,i),cu=i===c,sc=SCORES[tk]&&SCORES[tk][i];
+    for(let i=a;i<b;i++){const d=isDone(tk,i),cu=i===c,sc=scoreOf(tk,i);
       rows+=`<button class="step${d?' isdone':''}${cu?' cur':''}" data-step="${i}"><span class="rail">${d&&(isDone(tk,i+1)||i+1===c)?`<i style="--i:${k}"></i>`:''}</span><span class="node${d?' done':cu?' cur':''}">${d?check:i+1}</span><span class="sc"><span class="rt"><b>${esc(t.steps[i][0])}</b><span>${(d?'Completed':cu?'Up next':'Step '+(i+1))+(sc!=null?' · Quiz '+sc+'/5':'')}</span></span>${cu?'<span class="tag">Now</span>':chev}</span></button>`;k++}
     return `<div class="phase in" ${D(.05+pi*.06)}><div><div class="lbl" style="margin-bottom:2px">Phase ${pi+1}</div><h3>${title}</h3></div><div><small>${dn}/${b-a}</small><div class="pb"><i style="--w:${Math.round(dn/(b-a)*100)}%"></i></div></div></div><div class="tl in" ${D(.08+pi*.06)}>${rows}</div>`}).join('');
   return `<div><div class="in" style="margin:6px 0 18px"><h1 class="h1">Your <em class="gt">roadmap</em></h1><p class="lbl" style="margin:8px 0 0;font-size:15px">${t.name} · ${doneCount(tk)} of ${N} steps complete${c<0?'':' · up next: step '+(c+1)}</p></div>${switcher()}${groups}</div>`}
@@ -795,7 +756,7 @@ function render(sk){
 function openSheet(html){$('#sbody').innerHTML=html;$('#sheet').classList.add('open');$('#scrim').classList.add('open')}
 function closeSheet(){$('#sheet').classList.remove('open');$('#scrim').classList.remove('open')}
 function stepSheet(i){
-  const t=T(),tk=t.key,N=t.steps.length,d=isDone(tk,i),p=t.phases[phaseIx(tk,i)][0],qz=t.quiz&&t.quiz[i],sc=SCORES[tk]&&SCORES[tk][i];
+  const t=T(),tk=t.key,N=t.steps.length,d=isDone(tk,i),p=t.phases[phaseIx(tk,i)][0],qz=t.quiz&&t.quiz[i],sc=scoreOf(tk,i);
   openSheet(`<div class="stack" style="gap:14px;position:relative">
     <span class="bignum" style="top:-8px;right:0" aria-hidden="true">${String(i+1).padStart(2,'0')}</span>
     <span class="eb">Step ${i+1} of ${N} · ${p}</span>
@@ -829,7 +790,7 @@ function startQuiz(i){const qs=T().quiz[i].map(([q,o,a,w])=>{const ix=o.map((_,k
 function addSheet(k){const t=TRACKS[k];
   openSheet(`<div class="stack" style="gap:14px"><span class="chip" style="align-self:flex-start">${plusI} Add to your portal</span><h2 class="h1" style="font-size:30px">${t.name}</h2>
     <div class="prof">${pav(t)}<span class="rt"><span>Taught by</span><b style="font-size:17px">${t.prof}</b></span></div>
-    <p style="margin:0;color:var(--body)">${t.steps.length} steps, from ${esc(t.steps[1][0].toLowerCase())} to your graduation review with ${t.pf}. It's included in your membership.</p>
+    <p style="margin:0;color:var(--body)">${t.own} lessons with ${t.pf}, from the basics to your graduation review. It's included in your membership.</p>
     <button class="btn gold" data-addok="${k}">Add ${t.short} to my portal</button><button class="btn ghost" id="sx2">Not now</button></div>`)}
 function gradSheet(){const t=T(),N=t.steps.length;
   openSheet(`<div class="stack" style="gap:16px;text-align:center;align-items:center"><div class="logo" style="width:78px;height:98px;margin-top:4px" role="img" aria-label="Vault crown"></div><span class="chip">${t.name} track · complete</span>
@@ -876,8 +837,8 @@ document.addEventListener('click',async e=>{
   if(t.dataset.quiz!==undefined){startQuiz(+t.dataset.quiz);return}
   if(t.dataset.ans!==undefined&&Q&&Q.picked==null){Q.picked=+t.dataset.ans;if(Q.picked===Q.qs[Q.ix][2])Q.score++;$('#sbody').innerHTML=quizView();return}
   if(t.dataset.qnext!==undefined&&Q){Q.ix++;Q.picked=null;
-    if(Q.ix>=Q.qs.length){const i=Q.i,tk=T().key,best=Math.max((SCORES[tk]&&SCORES[tk][i])||0,Q.score);
-      if(Q.score>=4){(SCORES[tk]=SCORES[tk]||{})[i]=best;await setDone(tk,i,true,best);const r=t.getBoundingClientRect();sparks(r.left+r.width/2,r.top-120)}
+    if(Q.ix>=Q.qs.length){const i=Q.i,tk=T().key,best=Math.max(scoreOf(tk,i)||0,Q.score);
+      if(Q.score>=4){await setDone(tk,i,true,best);const r=t.getBoundingClientRect();sparks(r.left+r.width/2,r.top-120)}
       render()}
     $('#sbody').innerHTML=quizView();$('#sheet').scrollTop=0;return}
 });
@@ -897,7 +858,7 @@ async function loadAdmin(){
   if(s.error){toast('Couldn’t load students');ROWS=[];return}
   const cnt={};(p.data||[]).forEach(r=>{const k=r.user_id+'|'+r.track;(cnt[k]=cnt[k]||new Set()).add(r.step)});
   const now=Date.now();
-  ROWS=(s.data||[]).map(r=>{const tracks={};(r.tracks||[]).forEach(t=>{if(TRACKS[t]){const set=cnt[r.id+'|'+t]||new Set();tracks[t]=set}});
+  ROWS=(s.data||[]).map(r=>{const tracks={},sk=cnt[r.id+'|skool']||new Set();(r.tracks||[]).forEach(t=>{if(TRACKS[t]){const set=new Set([...sk]);(cnt[r.id+'|'+t]||new Set()).forEach(i=>set.add(i+OBN));tracks[t]=set}});
     return {id:r.id,name:r.full_name||r.email.split('@')[0],email:r.email,phone:r.phone||'',tracks,
       days:Math.max(0,Math.floor((now-new Date(r.last_active||r.created_at))/dayMs)),joined:Math.max(0,Math.floor((now-new Date(r.created_at))/dayMs))}});
 }
