@@ -588,6 +588,12 @@ let PEND=null;try{PEND=JSON.parse(localStorage.getItem(PK))}catch(e){}
   history.replaceState(null,'',location.pathname+location.hash)}}
 const clearPend=()=>{PEND=null;try{localStorage.removeItem(PK)}catch(e){}};
 
+/* ===== LINK ERRORS (expired / already used) ===== */
+let LINKERR='';
+{const h=new URLSearchParams((location.hash||'').replace(/^#/,'')),q=new URLSearchParams(location.search);
+ const code=h.get('error_code')||q.get('error_code'),e=h.get('error')||q.get('error');
+ if(code||e){LINKERR=/expired|invalid/i.test((code||'')+(h.get('error_description')||''))?'That sign-in link expired or was already used. Enter your email and we’ll send a fresh one.':'That sign-in link didn’t work. Enter your email and we’ll send a fresh one.';
+  history.replaceState(null,'',location.pathname)}}
 /* ===== STATE ===== */
 let ME=null;      // students row
 let DONE={};      // {track:Set(step)}
@@ -655,7 +661,7 @@ document.addEventListener('submit',async e=>{
 /* ===== SESSION ===== */
 let booting=false;
 async function onSession(session){
-  if(!session){ME=null;IS_ADMIN=false;show('login');loginView(LV==='sent'?'sent':'email');return}
+  if(!session){ME=null;IS_ADMIN=false;show('login');loginView(LV==='sent'&&!LINKERR?'sent':'email',LINKERR);LINKERR='';return}
   if(booting)return;booting=true;
   try{
     const u=session.user;
@@ -664,7 +670,8 @@ async function onSession(session){
     const pend=PEND&&(!PEND.email||PEND.email.toLowerCase()===u.email.toLowerCase())?PEND:null;
     if(!row){
       const ins={id:u.id,email:u.email,full_name:pend&&pend.name||null,phone:pend&&pend.phone||null,tracks:pend&&pend.tracks||[]};
-      const r=await sb.from('students').insert(ins).select().single();if(r.error)throw r.error;row=r.data;
+      let r=await sb.from('students').insert(ins).select().single();
+      if(r.error){const again=await sb.from('students').select('*').eq('id',u.id).maybeSingle();if(again.error||!again.data)throw r.error;r={data:again.data}}row=r.data;
     }else if(pend&&pend.tracks.length){
       const merged=[...new Set([...(row.tracks||[]),...pend.tracks])];
       const upd={tracks:merged};if(!row.full_name&&pend.name)upd.full_name=pend.name;if(!row.phone&&pend.phone)upd.phone=pend.phone;
@@ -677,7 +684,7 @@ async function onSession(session){
     DONE={};SCORES={};(pr.data||[]).forEach(r=>{(DONE[r.track]=DONE[r.track]||new Set()).add(r.step);if(r.quiz_score!=null)(SCORES[r.track]=SCORES[r.track]||{})[r.step]=r.quiz_score});
     sb.from('students').update({last_active:new Date().toISOString()}).eq('id',u.id).then(()=>{});
     afterLogin();
-  }catch(e){console.error(e);show('login');loginView('email','Something went wrong loading your portal. Try again in a moment.')}
+  }catch(e){console.error(e);if(!onSession.retried){onSession.retried=true;booting=false;return setTimeout(()=>onSession(session),1200)}show('login');loginView('email','We couldn’t load your portal. Refresh the page or get a new sign-in link.')}
   finally{booting=false}
 }
 function afterLogin(){
@@ -712,7 +719,7 @@ async function setDone(tk,i,on,score){
 /* ===== STUDENT VIEWS ===== */
 function switcher(){if(ME.tracks.length<2)return '';
   return `<div class="tsw in" ${D(.04)} role="tablist" aria-label="Your tracks">${ME.tracks.map(k=>`<button role="tab" aria-selected="${k===P.track}" class="${k===P.track?'on':''}" data-track="${k}">${TRACKS[k].short}</button>`).join('')}</div>`}
-function pav(t,size){const sz=size?`width:${size}px;height:${size}px;font-size:${Math.round(size/2.8)}px;`:'';return t.photo?`<span class="pav ph" style="${sz}background-image:url('${t.photo}')" role="img" aria-label="${esc(t.prof)}">${t.ini}</span>`:`<span class="pav" style="${sz}">${t.ini}</span>`}
+function pav(t,size){const sz=size?`width:${size}px;height:${size}px;font-size:${Math.round(size/2.8)}px;`:'';return t.photo?`<span class="pav ph" style="${sz}background-image:url('${t.photo}')" role="img" aria-label="${esc(t.prof)}"></span>`:`<span class="pav" style="${sz}">${t.ini}</span>`}
 function upsell(tk,d){const u=UPSELL[tk],t=TRACKS[tk];
   return `<div class="up in" ${D(d)}><div class="stack" style="gap:14px">
   <span class="chip" style="align-self:flex-start"><span class="live"></span>${u.chip}</span>
@@ -841,7 +848,7 @@ function acctSheet(){
 
 /* ===== STUDENT EVENTS ===== */
 document.addEventListener('click',async e=>{
-  const t=e.target.closest('[data-lv],#adminLink,#resend,#skipPw,[data-tab],[data-track],[data-step],[data-toggle],[data-play],[data-quiz],[data-ans],[data-qnext],[data-add],[data-addok],[data-grad],[data-mode],#avb,#out,#toAdmin,#editTracks,#chgPw,#scrim,#sx,#sx2');
+  const t=e.target.closest('[data-lv],#adminLink,#resend,#skipPw,[data-tab],[data-track],[data-step],[data-toggle],[data-play],[data-quiz],[data-ans],[data-qnext],[data-add],[data-addok],[data-grad],button[data-mode],#avb,#out,#toAdmin,#editTracks,#chgPw,#scrim,#sx,#sx2');
   if(!t||t.disabled)return;
   if(t.dataset.lv){const em=$('#em');if(em)LEMAIL=em.value.trim();loginView(t.dataset.lv);return}
   if(t.id==='adminLink'){loginMode=loginMode==='admin'?'student':'admin';loginView(LV);return}
