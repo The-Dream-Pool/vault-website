@@ -317,7 +317,7 @@ a,button{-webkit-tap-highlight-color:transparent}
 @media (min-width:1101px){.fd3{grid-template-columns:repeat(4,1fr);gap:18px}.fd{aspect-ratio:3/4.3}.fd .b{padding:72px 22px 22px}.fd h3{font-size:25px}.fd .r{font-size:13px;margin-bottom:10px}.fd p{font-size:14px;line-height:1.55}.fd .more{margin-top:14px;font-size:13.5px;padding:9px 14px}}
 
 /* ===================== PREMIUM LAYER ===================== */
-:root{--grad-gold:linear-gradient(115deg,#8A6514,#C9962B 22%,#E3B447 42%,#F2D98C 52%,#E3B447 66%,#A87A1C 88%);--grad-deep:linear-gradient(115deg,#7A5810,#A87A1C 40%,#C9962B 60%,#7A5810);--grad-ink:linear-gradient(100deg,#4B1678 0%,#7A3DB8 48%,#A87A1C 100%)}
+:root{--grad-gold:linear-gradient(115deg,#8A6514,#C9962B 22%,#E3B447 42%,#F2D98C 52%,#E3B447 66%,#A87A1C 88%);--grad-deep:linear-gradient(115deg,#7A5810,#A87A1C 40%,#C9962B 60%,#7A5810);--grad-ink:linear-gradient(100deg,#3E1266 0%,#5B2398 50%,#7E3FC0 100%)}
 html,body{overflow-x:clip}
 /* moving gradient band */
 .vband{background:linear-gradient(100deg,#1E0B30,#4B1678 22%,#8E4EC6 40%,#A87A1C 60%,#E3B447 78%,#1E0B30);background-size:220% 100%;animation:vband 9s linear infinite;text-align:center}
@@ -340,7 +340,7 @@ h1 em,h2 em,.card h4 em{background:var(--grad-ink);-webkit-background-clip:text;
 .dark h2{color:#F6F1E8}
 /* hero */
 .hero{position:relative;isolation:isolate}
-.hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-120px -16px -40px;background:radial-gradient(620px 420px at 22% 40%,rgba(227,180,71,.16),transparent 70%),radial-gradient(700px 520px at 85% 30%,rgba(142,78,198,.16),transparent 70%)}
+.hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 15%,#000 80%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 15%,#000 80%,transparent);mask-composite:intersect;inset:-120px -16px -40px;background:radial-gradient(620px 420px at 22% 40%,rgba(227,180,71,.16),transparent 70%),radial-gradient(700px 520px at 85% 30%,rgba(142,78,198,.16),transparent 70%)}
 .stat{border-top:0;position:relative}
 .stat::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,rgba(168,122,28,.6),rgba(168,122,28,.1))}
 .stat b{background:var(--grad-deep);-webkit-background-clip:text;background-clip:text;color:transparent;width:fit-content}
